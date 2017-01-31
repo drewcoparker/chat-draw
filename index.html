@@ -7,9 +7,39 @@
     <body>
         <h1>It works</h1>
 
+        <div>
+            <h3>Enter your message</h3>
+            <input type="text" id="chat-message" />
+            <input type="button" value="send" onclick="sendChatMessage()" />
+        </div>
+
+        <div id="userNames"></div>
+        <div id="userChats"></div>
+
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
         <script type="text/javascript">
-            var socketio = io.connect("http://127.0.0.1:8080")
+            var socketio = io.connect("http://127.0.0.1:8080");
+            socketio.on("users", (socketUsers) => {
+                console.log(socketUsers);
+                var newHTML = "";
+                socketUsers.map((currSocket, index) => {
+                    newHTML += `<li class="user">${currSocket.name}</li>`;
+                });
+                document.getElementById("userNames").innerHTML = newHTML;
+            });
+
+            socketio.on("messageToClient", (messageObject) => {
+                document.getElementById("userChats").innerHTML += `<div class="message">${messageObject.message} -- ${messageObject.date}</div>`;
+            });
+
+            function sendChatMessage() {
+                var messageToSend = document.getElementById("chat-message").value;
+                socketio.emit("messageToServer", {
+                    message: messageToSend,
+                    name: "Anonymous"
+                });
+            }
+
         </script>
     </body>
 </html>
