@@ -1,6 +1,6 @@
 
 
-var socketio = io.connect("http://127.0.0.1:8080");
+var socketio = io.connect("http://localhost:8080/");
 socketio.on("users", (socketUsers) => {
     console.log(socketUsers);
     var newHTML = "";
@@ -60,6 +60,7 @@ canvas.addEventListener("mousemove", (event) => {
     if (mouseDown) {
         var magicBrushX = event.pageX - canvas.offsetLeft;
         var magicBrushY = event.pageY - canvas.offsetTop;
+
         mousePosition = {
             x: magicBrushX,
             y: magicBrushY
@@ -71,9 +72,11 @@ canvas.addEventListener("mousemove", (event) => {
             context.lineCap = "round";
             context.lineWidth = thickness;
             context.beginPath();
-            context.moveTo(lastMousePostion.x, lastMousePostion.y);
+            // context.moveTo(lastMousePostion.x, lastMousePostion.y);
             context.lineTo(mousePosition.x, mousePosition.y);
+            context.closePath();
             context.stroke();
+        } else {
             context.closePath();
         }
 
