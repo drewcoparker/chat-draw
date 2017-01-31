@@ -38,6 +38,11 @@ io.sockets.on("connect", (socket) => {
             date: new Date()
         })
     })
+    socket.on("drawingToServer", (drawingData) => {
+        if (drawingData.lastMousePostion !== null) {
+            io.sockets.emit("drawingToClients", drawingData);
+        }
+    })
 });
 
 server.listen(8080);
