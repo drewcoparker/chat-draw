@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/drewcoparker/chat-draw/issues"
   },
-  "homepage": "https://github.com/drewcoparker/chat-draw#readme"
+  "homepage": "https://github.com/drewcoparker/chat-draw#readme",
+  "dependencies": {
+    "socket.io": "^1.7.2"
+  }
 }
