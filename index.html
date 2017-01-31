@@ -4,42 +4,29 @@
         <meta charset="utf-8">
         <title>Chat & Draw!</title>
     </head>
-    <body>
-        <h1>It works</h1>
+    <body style="font-family:BlinkMacSystemFont">
 
-        <div>
+        <div style="text-align:center;margin-top:50px">
             <h3>Enter your message</h3>
-            <input type="text" id="chat-message" />
-            <input type="button" value="send" onclick="sendChatMessage()" />
+            <form onsubmit="sendChatMessage()">
+                <input type="text" id="chat-message" />
+                <input type="button" value="send" onclick="sendChatMessage()" />
+            </form>
         </div>
 
-        <div id="userNames"></div>
-        <div id="userChats"></div>
 
-        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript">
-            var socketio = io.connect("http://127.0.0.1:8080");
-            socketio.on("users", (socketUsers) => {
-                console.log(socketUsers);
-                var newHTML = "";
-                socketUsers.map((currSocket, index) => {
-                    newHTML += `<li class="user">${currSocket.name}</li>`;
-                });
-                document.getElementById("userNames").innerHTML = newHTML;
-            });
+        <!-- <div class="chat-section" style="text-align:center;margin-top:50px">
+            <div id="userNames"></div>
+            <div id="userChats"></div>
+        </div> -->
 
-            socketio.on("messageToClient", (messageObject) => {
-                document.getElementById("userChats").innerHTML += `<div class="message">${messageObject.message} -- ${messageObject.date}</div>`;
-            });
+        <div class="canvas-section" style="text-align:center;margin-top:50px">
+            <canvas id="canvas" width="500px" height="500px" style="box-shadow:2px 2px 2px 1px rgba(0,0,0,.4)"></canvas>
+        </div>
 
-            function sendChatMessage() {
-                var messageToSend = document.getElementById("chat-message").value;
-                socketio.emit("messageToServer", {
-                    message: messageToSend,
-                    name: "Anonymous"
-                });
-            }
 
-        </script>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
+        <script type="text/javascript" src="scripts.js"></script>
     </body>
 </html>
